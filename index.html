@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Anvi — Portfolio</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <style>
+    /* Profile photo styles — NO rotation */
+    .about-photo {
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: top center;
+      border: 5px solid var(--accent);
+      box-shadow: 0 8px 32px rgba(var(--accent-rgb),0.25);
+      display: block;
+    }
+    .hero-photo {
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: top center;
+      border: 5px solid var(--accent);
+      box-shadow: 0 8px 40px rgba(var(--accent-rgb),0.3);
+      animation: float 6s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+    .about-image-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    /* ── FEATURED PROJECTS — styled like anvi_portfolio__1_.html ── */
+    #projects { background: var(--bg); }
+    .section-sub {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-top: -28px;
+      margin-bottom: 40px;
+      text-align: center;
+    }
+    .projects-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .project-row {
+      border-top: 1px solid var(--border);
+      padding: 36px 0;
+      display: grid;
+      grid-template-columns: 60px 1fr auto;
+      gap: 32px;
+      align-items: start;
+      transition: background 0.3s, padding 0.3s, margin 0.3s;
+      cursor: default;
+    }
+    .project-row:last-child { border-bottom: 1px solid var(--border); }
+    .project-row:hover {
+      background: var(--bg-alt);
+      margin: 0 -5%;
+      padding: 36px 5%;
+    }
+    .project-num {
+      font-family: 'DM Sans', monospace;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      padding-top: 6px;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+    .project-info h3 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 10px;
+      transition: color 0.3s;
+      font-family: var(--font-display);
+      color: var(--text);
+    }
+    .project-row:hover .project-info h3 { color: var(--accent); }
+    .project-info p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      max-width: 580px;
+      margin-bottom: 16px;
+    }
+    .project-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+    .chip {
+      font-family: 'DM Sans', monospace;
+      font-size: 0.7rem;
+      padding: 3px 10px;
+      border-radius: 3px;
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+    }
+    .project-links { display: flex; gap: 12px; align-items: center; }
+    .plink {
+      font-size: 0.8rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text);
+      text-decoration: none;
+      transition: color 0.2s, gap 0.2s;
+    }
+    .plink:hover { color: var(--accent); gap: 10px; }
+    .plink.live {
+      padding: 8px 18px;
+      background: var(--accent);
+      color: white;
+      border-radius: 4px;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .plink.live:hover { background: var(--accent-dark); transform: translateY(-1px); }
+    .project-meta { text-align: right; padding-top: 6px; }
+    .project-meta .badge {
+      display: inline-block;
+      font-family: 'DM Sans', monospace;
+      font-size: 0.68rem;
+      padding: 4px 10px;
+      border-radius: 3px;
+      background: var(--accent);
+      color: white;
+      letter-spacing: 0.5px;
+    }
+    .project-meta .badge.game { background: #6366f1; }
+
+    @media (max-width: 768px) {
+      .project-row { grid-template-columns: 40px 1fr; }
+      .project-meta { display: none; }
+    }
+    @media (max-width: 480px) {
+      .project-row { grid-template-columns: 1fr; }
+      .project-num { display: none; }
+    }
+  </style>
+</head>
+<body class="light-mode">
+
+  <!-- PRELOADER -->
+  <div id="preloader">
+    <div class="preloader-inner">
+      <span class="preloader-letter">A</span>
+      <span class="preloader-letter">N</span>
+      <span class="preloader-letter">V</span>
+      <span class="preloader-letter">I</span>
+      <div class="preloader-bar"><div class="preloader-fill"></div></div>
+    </div>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav id="navbar">
+    <div class="nav-logo">Anvi<span class="dot">.</span></div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#hero" class="nav-link smooth-scroll">Home</a></li>
+      <li><a href="#about" class="nav-link smooth-scroll">About</a></li>
+      <li><a href="#skills" class="nav-link smooth-scroll">Skills</a></li>
+      <li><a href="#projects" class="nav-link smooth-scroll">Projects</a></li>
+      <li><a href="#contact" class="nav-link smooth-scroll">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <div class="clock-widget" id="clockWidget"></div>
+      <button id="themeToggle" class="theme-btn" title="Toggle Dark/Light Mode">🌙</button>
+      <div class="hamburger" id="hamburger">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO / HEADER -->
+  <header id="hero">
+    <div class="hero-bg-shapes">
+      <div class="shape shape-1"></div>
+      <div class="shape shape-2"></div>
+      <div class="shape shape-3"></div>
+    </div>
+    <div class="hero-content">
+      <p class="hero-greeting" id="greetingMsg">Good Morning!</p>
+      <h1 class="hero-title">Hi, I'm <span class="typed-text" id="typedText"></span><span class="cursor-blink">|</span></h1>
+      <p class="hero-subtitle">Computer Science Student &amp; Web Developer crafting beautiful digital experiences</p>
+      <div class="hero-btns">
+        <a href="#projects" class="btn btn-primary smooth-scroll">View My Work</a>
+        <a href="#contact" class="btn btn-outline smooth-scroll">Let's Talk</a>
+      </div>
+    </div>
+    <div class="hero-image">
+      <!-- No rotating ring wrapper — just the photo with float animation -->
+      <img src="images/profile.jpeg" alt="Anvi" class="hero-photo" />
+    </div>
+    <div class="scroll-indicator smooth-scroll" data-target="#about">
+      <div class="mouse"><div class="wheel"></div></div>
+      <span>Scroll Down</span>
+    </div>
+  </header>
+
+  <!-- ABOUT SECTION -->
+  <section id="about">
+    <div class="container">
+      <div class="section-label" data-aos="fade-right">About Me</div>
+      <div class="about-grid">
+        <div class="about-image-wrap" data-aos="fade-right" data-aos-delay="100">
+          <div class="about-image-box">
+            <img src="images/profile.jpeg" alt="Anvi" class="about-photo" />
+            <div class="about-badge">✦ Available for Work</div>
+          </div>
+        </div>
+        <div class="about-text" data-aos="fade-left" data-aos-delay="200">
+          <h2 class="section-title">Crafting digital experiences <em>with purpose</em></h2>
+          <p>I'm <strong>Anvi</strong>, a passionate Computer Science student with a deep love for building beautiful, accessible, and performant web applications.</p>
+          <p>I blend technical precision with creative vision — turning ideas into interactive experiences that people love to use.</p>
+          <div class="about-stats">
+            <div class="stat-item">
+              <span class="stat-num counter" data-target="2">0</span>
+              <span class="stat-label">Projects Deployed</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-num counter" data-target="5">0</span>
+              <span class="stat-label">Technologies</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-num counter" data-target="99">0</span>
+              <span class="stat-label">% Dedication</span>
+            </div>
+          </div>
+          <button id="readMoreBtn" class="btn btn-primary">Read More</button>
+          <div id="extraAbout" class="extra-about" style="display:none;">
+            <p>When I'm not coding, I'm exploring design trends, sketching UI concepts, or learning new technologies. I believe great software is not just functional — it's delightful to use.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS SECTION -->
+  <section id="skills">
+    <div class="container">
+      <div class="section-label" data-aos="fade-right">Expertise</div>
+      <h2 class="section-title center" data-aos="fade-up">Skills &amp; Technologies</h2>
+      <div class="accordion-container" data-aos="fade-up" data-aos-delay="100">
+        <div class="accordion-item">
+          <div class="accordion-header">
+            <span>🎨 Frontend Development</span>
+            <span class="acc-icon">+</span>
+          </div>
+          <div class="accordion-body">
+            <div class="skill-tags">
+              <span class="tag">HTML5</span><span class="tag">CSS3</span>
+              <span class="tag">JavaScript</span><span class="tag">jQuery</span>
+              <span class="tag">React.js</span><span class="tag">Tailwind CSS</span>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <div class="accordion-header">
+            <span>⚙️ Backend &amp; Tools</span>
+            <span class="acc-icon">+</span>
+          </div>
+          <div class="accordion-body">
+            <div class="skill-tags">
+              <span class="tag">Node.js</span><span class="tag">Python</span>
+              <span class="tag">Git &amp; GitHub</span><span class="tag">MySQL</span>
+              <span class="tag">MongoDB</span>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <div class="accordion-header">
+            <span>🖌️ Design Tools</span>
+            <span class="acc-icon">+</span>
+          </div>
+          <div class="accordion-body">
+            <div class="skill-tags">
+              <span class="tag">Figma</span><span class="tag">Adobe XD</span>
+              <span class="tag">Canva</span><span class="tag">Photoshop</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS SECTION — styled like anvi_portfolio__1_.html -->
+  <section id="projects">
+    <div class="container">
+      <div class="section-label" data-aos="fade-right">Work</div>
+      <h2 class="section-title center" data-aos="fade-up">Featured <em>Projects</em></h2>
+      <p class="section-sub" data-aos="fade-up" data-aos-delay="50">Real projects, live on the internet — not just localhost experiments.</p>
+
+      <div class="projects-list" data-aos="fade-up" data-aos-delay="100">
+
+        <!-- Project 1: AI Timetable Generator -->
+        <div class="project-row">
+          <div class="project-num">01</div>
+          <div class="project-info">
+            <h3>AI-Based Timetable Generator</h3>
+            <p>A smart web application that automatically generates organized college timetables. Users input lecture timings, break durations, working hours, and the system produces a structured, conflict-free schedule instantly. Deployed and live on PythonAnywhere.</p>
+            <div class="project-chips">
+              <span class="chip">Python</span>
+              <span class="chip">Flask</span>
+              <span class="chip">HTML5</span>
+              <span class="chip">CSS3</span>
+              <span class="chip">JavaScript</span>
+            </div>
+            <div class="project-links">
+              <a href="https://anvi0907.pythonanywhere.com/" target="_blank" rel="noopener" class="plink live">Live Demo ↗</a>
+              <a href="https://github.com/anvi0907/AI-Based-Timetable-Generator" target="_blank" rel="noopener" class="plink">GitHub →</a>
+            </div>
+          </div>
+          <div class="project-meta">
+            <span class="badge">Web App</span>
+          </div>
+        </div>
+
+        <!-- Project 2: Number Mastermind Game -->
+        <div class="project-row">
+          <div class="project-num">02</div>
+          <div class="project-info">
+            <h3>Number Mastermind</h3>
+            <p>An interactive browser-based game where players must crack a secret 4-digit number with unique digits within 10 attempts. Features real-time feedback, attempt progress bar, unique digit validation, and a restart system. Also available as a Python/Tkinter desktop version.</p>
+            <div class="project-chips">
+              <span class="chip">JavaScript</span>
+              <span class="chip">HTML5</span>
+              <span class="chip">CSS3</span>
+              <span class="chip">Python</span>
+              <span class="chip">Tkinter</span>
+            </div>
+            <div class="project-links">
+              <a href="https://hilarious-bombolone-df3fd1.netlify.app/" target="_blank" rel="noopener" class="plink live">Play Now ↗</a>
+              <a href="https://github.com/anvi0907/Number-Mastermind-game" target="_blank" rel="noopener" class="plink">GitHub →</a>
+            </div>
+          </div>
+          <div class="project-meta">
+            <span class="badge game">Game</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- GitHub CTA -->
+      <div style="text-align:center; margin-top:48px;" data-aos="fade-up">
+        <a href="https://github.com/anvi0907" target="_blank" rel="noopener" class="btn btn-outline">
+          View All on GitHub →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT SECTION -->
+  <section id="contact">
+    <div class="container">
+      <div class="section-label" data-aos="fade-right">Get In Touch</div>
+      <h2 class="section-title center" data-aos="fade-up">Contact Me</h2>
+      <div class="contact-grid">
+        <div class="contact-info" data-aos="fade-right" data-aos-delay="100">
+          <h3>Let's work together</h3>
+          <p>I'm always open to discussing new opportunities, interesting projects, or just having a great conversation.</p>
+          <div class="contact-details">
+            <div class="contact-item"><span class="c-icon">🐙</span><span><a href="https://github.com/anvi0907" target="_blank" rel="noopener" style="color:inherit;">github.com/anvi0907</a></span></div>
+            <div class="contact-item"><span class="c-icon">📍</span><span>Punjab, India</span></div>
+            <div class="contact-item"><span class="c-icon">🎓</span><span>B.Tech Computer Science</span></div>
+          </div>
+        </div>
+        <form id="contactForm" class="contact-form" data-aos="fade-left" data-aos-delay="150" novalidate>
+          <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" placeholder="Your full name" autocomplete="off"/>
+            <span class="error-msg" id="nameError"></span>
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" placeholder="your@email.com" autocomplete="off"/>
+            <span class="error-msg" id="emailError"></span>
+          </div>
+          <div class="form-group">
+            <label for="subject">Subject</label>
+            <input type="text" id="subject" placeholder="What's this about?" autocomplete="off"/>
+            <span class="error-msg" id="subjectError"></span>
+          </div>
+          <div class="form-group">
+            <label for="message">Message <span class="char-count" id="charCount">0 / 300</span></label>
+            <textarea id="message" rows="5" placeholder="Write your message here..." maxlength="300"></textarea>
+            <span class="error-msg" id="messageError"></span>
+          </div>
+          <button type="submit" class="btn btn-primary full-width">Send Message ✉️</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer id="footer">
+    <div class="footer-inner">
+      <div class="footer-logo">Anvi<span class="dot">.</span></div>
+      <p class="footer-tagline">Designed &amp; Built with ❤️ by Anvi</p>
+      <div class="footer-links">
+        <a href="#hero" class="smooth-scroll">Home</a>
+        <a href="#about" class="smooth-scroll">About</a>
+        <a href="#projects" class="smooth-scroll">Projects</a>
+        <a href="#contact" class="smooth-scroll">Contact</a>
+      </div>
+      <p class="footer-copy">&copy; 2025 Anvi. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- SCROLL TO TOP -->
+  <button id="scrollTop" title="Back to top">&#8679;</button>
+
+  <!-- POPUP -->
+  <div id="popup" class="popup-overlay" style="display:none;">
+    <div class="popup-box">
+      <span class="popup-close" id="popupClose">&times;</span>
+      <div class="popup-icon">🎉</div>
+      <h3 id="popupTitle">Message Sent!</h3>
+      <p id="popupMsg">Thanks for reaching out. I'll get back to you shortly.</p>
+      <button class="btn btn-primary" id="popupOk">Awesome!</button>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
